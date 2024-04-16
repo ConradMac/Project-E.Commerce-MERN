@@ -6,7 +6,10 @@ export const adminLogin = createAsyncThunk("auth/admin_login", async (info) => {
     try {
         const { data } = await api.post("/admin-login", info, { withCredentials: true });
         console.log(data);
-    } catch (cons) {}
+    } catch (error) {
+        // cette ligne fait reference a notre fichier response dans le backend.
+        console.log(error.response.data);
+    }
 });
 
 export const authReducer = createSlice({
