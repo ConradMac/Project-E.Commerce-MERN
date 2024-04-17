@@ -15,6 +15,7 @@ function Register() {
     const inputHandle = (e) => {
         setState({
             ...state,
+            // .name permet de récupérer le nom de l'input ou l'attribut name de l'input
             [e.target.name]: e.target.value,
         });
     };
