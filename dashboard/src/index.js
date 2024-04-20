@@ -14,6 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     // changer le strict mode par BrowserRouter
     <BrowserRouter>
+        {/* Provider provient de redux apres avoir devtools. */}
         <Provider store={store}>
             <Suspense>
                 <App />

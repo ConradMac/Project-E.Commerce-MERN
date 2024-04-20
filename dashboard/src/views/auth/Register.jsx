@@ -22,6 +22,7 @@ function Register() {
 
     // on définit une fonction pour gérer la soumission du formulaire
     const submitHandle = (e) => {
+        // on empêche le comportement par défaut du formulaire de se recharger
         e.preventDefault();
         console.log(state);
     };
