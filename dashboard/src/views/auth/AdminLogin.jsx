@@ -1,9 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { adminLogin } from "../../store/Reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { admin_Login } from "../../store/Reducers/authReducer";
+
+//  pour le loader
+import { PropagateLoader } from "react-spinners";
 
 function AdminLogin() {
     const dispatch = useDispatch();
+
+    // Cette ligne utilise le hook useSelector fourni par React Redux pour extraire la valeur de loader à partir du state global. dans authReducer
+    const { loader } = useSelector((state) => state.auth);
 
     const [state, setState] = useState({
         email: "",
@@ -19,7 +25,7 @@ function AdminLogin() {
 
     const submitHandle = (e) => {
         e.preventDefault();
-        dispatch(adminLogin(state));
+        dispatch(admin_Login(state));
         // console.log(state);
     };
 
@@ -65,7 +71,10 @@ function AdminLogin() {
                             />
                         </div>
 
-                        <button className="bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px700 py-2 mb-3">
+                        <button
+                            // disabled={loader ? true : false}
+                            className="bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px700 py-2 mb-3"
+                        >
                             Log In
                         </button>
                     </form>
