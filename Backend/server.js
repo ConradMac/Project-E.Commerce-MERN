@@ -15,8 +15,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`server is running on port ${PORT}`));
+// Définit le port sur lequel le serveur écoutera les requêtes entrantes
+const PORT = process.env.PORT || 5000;
+// Lance le serveur et écoute les requêtes entrantes sur le port spécifié
+app.listen(PORT, () => console.log(`Le serveur fonctionne sur le port ${PORT}`));
+// Connecte l'application à la base de données
 dbConnect();
 
 app.use("/api", require("./routes/authRoutes"));

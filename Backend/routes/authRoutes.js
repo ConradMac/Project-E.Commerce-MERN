@@ -1,4 +1,4 @@
-const authControllers = require("../controllers/authControllers");
+const authControllers = require("./../controllers/authControllers");
 
 // nous créerons une route pour la fonction admin_login
 const router = require("express").Router();
