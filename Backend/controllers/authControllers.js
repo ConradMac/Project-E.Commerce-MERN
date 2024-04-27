@@ -31,7 +31,7 @@ class authControllers {
                     // on retourne le token et un message de succès
                     responseReturn(res, 200, { token, message: "Login SUCCESS" });
                 } else {
-                    responseReturn(res, 404, { error: "Password Not Found" });
+                    responseReturn(res, 404, { error: "Password Wrong !" });
                 }
             } else {
                 responseReturn(res, 404, { error: "Email Not Found" });
