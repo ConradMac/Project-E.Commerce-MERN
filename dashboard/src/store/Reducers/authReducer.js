@@ -7,6 +7,7 @@ export const admin_Login = createAsyncThunk("auth/admin_login", async (info, { r
     try {
         // ici, je veux passer les informations de l'utilisateur au backend pour qu'il puisse les vérifier. data est un nomé donné pour toutes les datas qui seront envoyées au backend.
         const { data } = await api.post("/admin-login", info, { withCredentials: true });
+        localStorage.setItem("accessToken", data.token);
         console.log(data);
         return fulfillWithValue(data);
     } catch (error) {
@@ -25,9 +26,11 @@ export const authReducer = createSlice({
         loader: false, // Utilisez false plutôt que "false"
         userInfo: "",
     },
-    reducers: {
-        // Définition de l'action messageClear pour effacer le message d'erreur
+    // Ce reducer définit une action pour effacer le message d'erreur
+    reducer: {
+        // Action "messageClear" : elle est déclenchée pour effacer le message d'erreur dans l'état
         messageClear: (state, _) => {
+            // Mise à jour de l'état : la propriété "errorMessage" est réinitialisée à une chaîne vide
             state.errorMessage = "";
         },
     },
@@ -40,9 +43,14 @@ export const authReducer = createSlice({
             .addCase(admin_Login.rejected, (state, { payload }) => {
                 state.loader = false;
                 state.errorMessage = payload.error;
+            })
+            .addCase(admin_Login.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.successMessage = payload.message;
             });
     },
 });
+
 // Exportation de l'action messageClear depuis la tranche Redux authReducer
 export const { messageClear } = authReducer.actions;
 export default authReducer.reducer;
