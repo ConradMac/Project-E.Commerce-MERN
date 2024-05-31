@@ -59,7 +59,7 @@ function Orders() {
                                 <div className="py-3 w-[18%] font-medium">Pending</div>
                                 <div className="py-3 w-[25%] font-medium">Pending</div>
                                 <div className="py-3 w-[25%] font-medium">
-                                    <Link>View</Link>
+                                    <Link to={"/admin/dashboard/order/details/2"}>View</Link>
                                 </div>
                                 <div onClick={(event) => setShowDiv(!showDiv)} className="py-3 w-[8%] font-medium">
                                     <LuArrowDownSquare />

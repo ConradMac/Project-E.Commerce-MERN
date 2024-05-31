@@ -1,4 +1,6 @@
 import { lazy } from "react";
+
+const OrderDetails = lazy(() => import("../../views/admin/OrderDetails"));
 const ChatSeller = lazy(() => import("../../views/admin/ChatSeller"));
 const Category = lazy(() => import("../../views/admin/Category"));
 const AdminDashboard = lazy(() => import("../../views/admin/AdminDashboard"));
@@ -79,6 +81,14 @@ export const adminRoutes = [
         path: "admin/dashboard/chat-seller",
 
         element: <ChatSeller />,
+
+        role: "admin",
+    },
+    {
+        // Chemin de la route pour les détails des Orders par ID de user
+        path: "admin/dashboard/order/details/:orderId",
+
+        element: <OrderDetails />,
 
         role: "admin",
     },
