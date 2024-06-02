@@ -11,7 +11,7 @@ function SideBar({ showSideBar, setShowSideBar }) {
     // Utilisation du hook d'effet pour effectuer une action après le rendu initial du composant
     useEffect(() => {
         // Appel de la fonction getNavs pour récupérer les éléments de navigation pour le rôle "admin"
-        const navs = getNav("admin");
+        const navs = getNav("seller");
         // Mise à jour de l'état allNav avec les éléments de navigation récupérés
         setAllNav(navs);
     }, []); // Le tableau vide comme deuxième argument indique que cette opération ne doit être effectuée qu'une seule fois après le rendu initial du composant

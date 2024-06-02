@@ -104,4 +104,101 @@ export const allNav = [
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
         path: "/admin/dashboard/chat-seller",
     },
+    // --------------------------------- Seller ---------------------------------
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 9,
+        // Titre de l'élément de navigation
+        title: "Dashboard",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 10,
+        // Titre de l'élément de navigation
+        title: "Add Product",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/add-product",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 11,
+        // Titre de l'élément de navigation
+        title: "All Product",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/all-product",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 12,
+        // Titre de l'élément de navigation
+        title: "Discount Product",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/discount-product",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 13,
+        // Titre de l'élément de navigation
+        title: "Orders",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/orders",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 14,
+        // Titre de l'élément de navigation
+        title: "Payments",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/payments",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 15,
+        // Titre de l'élément de navigation
+        title: "Chat-Customer",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/chat-customer",
+    },
+    {
+        // Identifiant unique de l'élément de navigation
+        id: 16,
+        // Titre de l'élément de navigation
+        title: "Chat-Support",
+        // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
+        icon: <AiOutlineDashboard />,
+        // Rôle associé à l'élément de navigation, ici "seller"
+        role: "seller",
+        // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
+        path: "/seller/dashboard/chat-support",
+    },
 ];
