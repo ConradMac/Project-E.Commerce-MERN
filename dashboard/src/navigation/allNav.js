@@ -139,7 +139,7 @@ export const allNav = [
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
-        path: "/seller/dashboard/all-product",
+        path: "/seller/dashboard/products",
     },
     {
         // Identifiant unique de l'élément de navigation

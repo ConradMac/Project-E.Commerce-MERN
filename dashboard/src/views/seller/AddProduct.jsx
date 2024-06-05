@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IoMdImages } from "react-icons/io";
+import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
 
 function AddProduct() {
     const categorys = [
@@ -50,31 +50,63 @@ function AddProduct() {
         });
     };
 
-    const [image, setImage] = useState([]);
+    const [images, setImages] = useState([]);
     const [imageShow, setImageShow] = useState([]);
-
-    const imageHandleUpload = (event) => {
-        console.log(event.target.files);
-        const files = event.target.files;
+    const imageHandleUpload = (e) => {
+        const files = e.target.files;
         const length = files.length;
         if (length > 0) {
-            setImage([...imageShow, ...files]);
-            let imageUrls = [];
+            setImages([...images, ...files]);
+            let imageUrl = [];
             for (let i = 0; i < length; i++) {
-                imageUrls.push({ url: URL.createObjectURL(files[i]) });
+                imageUrl.push({ url: URL.createObjectURL(files[i]) });
             }
-            setImageShow([...imageShow, ...files]);
+            setImageShow([...imageShow, ...imageUrl]);
         }
     };
     // console.log(image);
     // console.log(imageShow);
+
+    const changeImage = (img, index) => {
+        // Vérifie si une image a été fournie
+        if (img) {
+            // Crée une copie de l'état actuel de imageShow
+            let tempUrl = imageShow;
+
+            // Crée une copie de l'état actuel de images
+            let tempImages = images;
+
+            // Remplace l'image à l'index spécifié par la nouvelle image
+            tempImages[index] = img;
+
+            // Crée une nouvelle URL pour l'image remplacée et met à jour tempUrl
+            tempUrl[index] = { url: URL.createObjectURL(img) };
+
+            // Met à jour l'état de imageShow avec la nouvelle copie modifiée
+            setImageShow([...tempUrl]);
+
+            // Met à jour l'état de images avec la nouvelle copie modifiée
+            setImages([...tempImages]);
+        }
+    };
+
+    const removeImage = (i) => {
+        const filterImage = images.filter((img, index) => index !== i);
+        const filterImageUrl = imageShow.filter((img, index) => index !== i);
+
+        setImages(filterImage);
+        setImageShow(filterImageUrl);
+    };
 
     return (
         <div className="px-2 lg-px-7 pt-5">
             <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
                 <div className="flex justify-between items-center pb-4">
                     <h1 className="text-[#d0d2d6] text-xl font-semibold">Add Product</h1>
-                    <Link className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white roundd-md px-7 py-2">
+                    <Link
+                        to={"/seller/dashboard/products"}
+                        className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white roundd-md px-7 py-2"
+                    >
                         All Product
                     </Link>
                 </div>
@@ -211,11 +243,25 @@ function AddProduct() {
                             ></textarea>
                         </div>
                         <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
-                            {imageShow.map((image, index) => (
+                            {imageShow.map((img, i) => (
                                 <div className="h-[180px] relative">
-                                    <label htmlFor="{index}">
-                                        <img className="w-full  h-full rounded-sm" src="image.url" alt="" />
+                                    <label htmlFor={i}>
+                                        <img className="w-full h-full rounded-sm" src={img.url} alt="" />
                                     </label>
+                                    <input
+                                        onChange={(e) => changeImage(e.target.files[0], i)}
+                                        type="file"
+                                        id={i}
+                                        className="hidden"
+                                    />
+                                    <span
+                                        onClick={() => removeImage(i)}
+                                        // on passe i de index car notre index des photos est 1 2 3 4 5....
+
+                                        className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-salte-400/5à text-white absolute top-1 right-1 rounded-full"
+                                    >
+                                        <IoMdCloseCircle />
+                                    </span>
                                 </div>
                             ))}
 
@@ -229,6 +275,11 @@ function AddProduct() {
                                 <span>Upload Image</span>
                             </label>
                             <input className="hidden" onChange={imageHandleUpload} multiple type="file" id="image" />
+                        </div>
+                        <div className="flex">
+                            <button className="bg-red-500 hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
+                                Add Product
+                            </button>
                         </div>
                     </form>
                 </div>
