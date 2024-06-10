@@ -201,4 +201,11 @@ export const allNav = [
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
         path: "/seller/dashboard/chat-support",
     },
+    {
+        id: 17,
+        title: "Profile",
+        icon: <AiOutlineDashboard />,
+        role: "seller",
+        path: "/seller/dashboard/profile",
+    },
 ];
