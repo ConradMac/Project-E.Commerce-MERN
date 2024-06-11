@@ -51,6 +51,12 @@ class authControllers {
     };
 
     // End Method
+
+    // Définition de la méthode seller_register
+    seller_register = async (req, res) => {
+        const { email, name, password } = req.body;
+    };
+
     // Définition de la méthode getUser
     getUser = async (req, res) => {
         // Extraction des propriétés id et role de l'objet req
