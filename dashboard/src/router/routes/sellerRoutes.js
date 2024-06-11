@@ -1,6 +1,8 @@
 // Importation de la fonction lazy depuis React pour charger le composant de manière paresseuse
 import { lazy } from "react";
 
+const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
+
 const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 const Profile = lazy(() => import("../../views/seller/Profile"));
 const SellerToCustomer = lazy(() => import("../../views/seller/SellerToCustomer"));
@@ -74,6 +76,14 @@ export const sellerRoutes = [
         path: "/seller/dashboard/orders",
 
         element: <Orders />,
+
+        ability: ["active", "deactive"],
+        role: "seller",
+    },
+    {
+        path: "/seller/dashboard/order/details/:orderId",
+
+        element: <OrderDetails />,
 
         ability: ["active", "deactive"],
         role: "seller",
