@@ -91,44 +91,32 @@ class authControllers {
 
     seller_login = async (req, res) => {
         const { email, password } = req.body;
-        console.log(req.body);
         try {
-            // Recherche de l'administrateur dans la base de données en fonction de l'e-mail fourni lors de la tentative de connexion
-            const admin = await adminModel.findOne({ email }).select("+password");
-            console.log(admin);
-
-            if (admin) {
-                // Vérification du mot de passe
-                const match = await bcrypt.compare(password, admin.password);
-                console.log(match);
-
+            const seller = await sellerModel.findOne({ email }).select("+password");
+            // console.log(admin)
+            if (seller) {
+                const match = await bcrpty.compare(password, seller.password);
+                // console.log(match)
                 if (match) {
-                    // Si les mots de passe correspondent, un token d'authentification est généré
                     const token = await createToken({
-                        id: admin.id,
-                        role: admin.role,
+                        id: seller.id,
+                        role: seller.role,
                     });
-
-                    // Ajout du token à un cookie nommé "accessToken" avec une date d'expiration de 7 jours
                     res.cookie("accessToken", token, {
                         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                     });
-
-                    // Renvoi d'une réponse avec le token et un message de succès
-                    responseReturn(res, 200, { token, message: "Login SUCCESS" });
+                    responseReturn(res, 200, { token, message: "Login Success" });
                 } else {
-                    // Si les mots de passe ne correspondent pas, renvoi d'une réponse avec un code d'erreur 404
-                    responseReturn(res, 404, { error: "Password Wrong !" });
+                    responseReturn(res, 404, { error: "Password Wrong" });
                 }
             } else {
-                // Si aucun administrateur n'est trouvé avec l'e-mail spécifié, renvoi d'une réponse avec un code d'erreur 404
-                responseReturn(res, 404, { error: "Email Not Found" });
+                responseReturn(res, 404, { error: "Email not Found" });
             }
         } catch (error) {
-            // Gestion des erreurs : renvoi d'une réponse avec un code d'erreur 500 et le message d'erreur correspondant
             responseReturn(res, 500, { error: error.message });
         }
     };
+    // End Method
 
     // Définition de la méthode getUser
     getUser = async (req, res) => {
