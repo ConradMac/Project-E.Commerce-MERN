@@ -9,14 +9,12 @@ const sellerSchema = new Schema(
         email: {
             type: String,
             required: true,
-            unique: true, // Assurez-vous que les adresses e-mail sont uniques
         },
         password: {
             type: String,
             required: true,
-            select: false, // Assurez-vous que le mot de passe n'est pas renvoyé dans les réponses
+            select: false,
         },
-
         role: {
             type: String,
             default: "seller",
@@ -29,10 +27,9 @@ const sellerSchema = new Schema(
             type: String,
             default: "inactive",
         },
-        // la méthode method va permetttre de savoir s'il se connecte avec son EMAIL ou par exemple avec GOOGLE ou FACEBOOK
         method: {
             type: String,
-            require: true,
+            required: true,
         },
         image: {
             type: String,
@@ -43,10 +40,7 @@ const sellerSchema = new Schema(
             default: {},
         },
     },
-    {
-        // Ajout de la propriété timestamps pour enregistrer la date de création et de mise à jour de chaque document
-        timestamps: true,
-    }
+    { timestamps: true }
 );
 
-module.exports = model("sellers", sellerSchema); // "admins" correspond au nom de votre collection MongoDB
+module.exports = model("sellers", sellerSchema);
