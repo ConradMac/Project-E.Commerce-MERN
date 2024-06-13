@@ -17,6 +17,40 @@ export const admin_Login = createAsyncThunk("auth/admin_login", async (info, { r
     }
 });
 
+export const seller_register = createAsyncThunk(
+    "auth/seller_register",
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            console.log(info);
+            const { data } = await api.post("/seller-register", info, { withCredentials: true });
+            localStorage.setItem("accessToken", data.token);
+            console.log(data);
+            return fulfillWithValue(data);
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const seller_login = createAsyncThunk(
+    "auth/seller_login",
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        console.log(info);
+        try {
+            // ici, je veux passer les informations de l'utilisateur au backend pour qu'il puisse les vérifier. data est un nomé donné pour toutes les datas qui seront envoyées au backend.
+            const { data } = await api.post("/seller-login", info, { withCredentials: true });
+            console.log(data);
+            localStorage.setItem("accessToken", data.token);
+            return fulfillWithValue(data);
+        } catch (error) {
+            // cette ligne fait reference a notre fichier response dans le backend.
+            console.log(error.response.data);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const authReducer = createSlice({
     name: "auth",
     initialState: {
@@ -27,7 +61,7 @@ export const authReducer = createSlice({
         userInfo: "",
     },
     // Ce reducer définit une action pour effacer le message d'erreur
-    reducer: {
+    reducers: {
         // Action "messageClear" : elle est déclenchée pour effacer le message d'erreur dans l'état
         messageClear: (state, _) => {
             // Mise à jour de l'état : la propriété "errorMessage" est réinitialisée à une chaîne vide
@@ -45,6 +79,32 @@ export const authReducer = createSlice({
                 state.errorMessage = payload.error;
             })
             .addCase(admin_Login.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.successMessage = payload.message;
+            })
+
+            // seller
+            .addCase(seller_register.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(seller_register.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.error;
+            })
+            .addCase(seller_register.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.successMessage = payload.message;
+            })
+
+            //seller login
+            .addCase(seller_login.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(seller_login.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.error;
+            })
+            .addCase(seller_login.fulfilled, (state, { payload }) => {
                 state.loader = false;
                 state.successMessage = payload.message;
             });

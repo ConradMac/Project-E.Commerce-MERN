@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle, FaPassport } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utilities/utils";
+import { seller_register, messageClear } from "./../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
 
 function Register() {
+    const dispatch = useDispatch();
+
     // on définit un state pour les inputs de notre formulaire
     const [state, setState] = useState({
         name: "",
@@ -25,7 +32,21 @@ function Register() {
         // on empêche le comportement par défaut du formulaire de se recharger
         e.preventDefault();
         console.log(state);
+        dispatch(seller_register(state));
     };
+
+    const { loader, errorMessage, successMessage } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (successMessage) {
+            toast.success(successMessage); // Affichage du message de succès avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
+        }
+        if (errorMessage) {
+            toast.error(errorMessage); // Affichage du message d'erreur avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message d'erreur
+        }
+    }, [errorMessage, successMessage]);
 
     return (
         <div className="min-w-screen min-h-screen bg-[#2cdcae9] flex justify-center items-center">
@@ -85,8 +106,11 @@ function Register() {
                             <label htmlFor="checkbox">I agree to privacy policy and terms</label>
                         </div>
 
-                        <button className="bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px700 py-2 mb-3">
-                            Sign Up
+                        <button
+                            disabled={loader} // Pas besoin de ternaire ici
+                            className="bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px700 py-2 mb-3"
+                        >
+                            {loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle} /> : "Sign Up"}
                         </button>
 
                         <div className="flex items-center mb-3 gap-3 justify-center">
