@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle, FaPassport } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,8 @@ import { seller_register, messageClear } from "./../../store/Reducers/authReduce
 import toast from "react-hot-toast";
 
 function Register() {
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     // on définit un state pour les inputs de notre formulaire
@@ -41,6 +43,7 @@ function Register() {
         if (successMessage) {
             toast.success(successMessage); // Affichage du message de succès avec toast
             dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
+            navigate("/");
         }
         if (errorMessage) {
             toast.error(errorMessage); // Affichage du message d'erreur avec toast

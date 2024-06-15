@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { PropagateLoader } from "react-spinners";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { seller_login, messageClear } from "./../../store/Reducers/authReducer";
 
 function Login() {
+    const navigate = useNavigate();
+
     const { loader, errorMessage, successMessage } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
@@ -35,6 +37,7 @@ function Login() {
         if (successMessage) {
             toast.success(successMessage); // Affichage du message de succès avec toast
             dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
+            navigate("/");
         }
         if (errorMessage) {
             toast.error(errorMessage); // Affichage du message d'erreur avec toast

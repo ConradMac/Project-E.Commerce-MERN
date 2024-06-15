@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getNav } from "./../navigation/index";
 import { BiLogOutCircle } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 
 function SideBar({ showSideBar, setShowSideBar }) {
+    const dispatch = useDispatch();
+    const { role } = useSelector((state) => state.auth);
+
     const [allNav, setAllNav] = useState([]);
 
     const { pathname } = useLocation();
@@ -11,10 +15,10 @@ function SideBar({ showSideBar, setShowSideBar }) {
     // Utilisation du hook d'effet pour effectuer une action après le rendu initial du composant
     useEffect(() => {
         // Appel de la fonction getNavs pour récupérer les éléments de navigation pour le rôle "admin"
-        const navs = getNav("seller");
+        const navs = getNav(role);
         // Mise à jour de l'état allNav avec les éléments de navigation récupérés
         setAllNav(navs);
-    }, []); // Le tableau vide comme deuxième argument indique que cette opération ne doit être effectuée qu'une seule fois après le rendu initial du composant
+    }, [role]); // Le tableau vide comme deuxième argument indique que cette opération ne doit être effectuée qu'une seule fois après le rendu initial du composant
 
     // Affichage de l'état allNav dans la console
     console.log(allNav);

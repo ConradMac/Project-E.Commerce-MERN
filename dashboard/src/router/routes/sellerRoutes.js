@@ -24,13 +24,13 @@ const Home = lazy(() => import("./../../views/Home"));
 // Définition des routes réservées aux vendeurs
 export const sellerRoutes = [
     // Définition d'un objet représentant une route
-    {
-        path: "/",
+    // {
+    //     path: "/",
 
-        element: <Home />,
+    //     element: <Home />,
 
-        ability: ["admin", "seller"],
-    },
+    //     ability: ["admin", "seller"],
+    // },
 
     {
         path: "/seller/dashboard",
