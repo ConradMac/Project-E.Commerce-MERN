@@ -2,9 +2,13 @@
 import { AiOutlineDashboard, AiOutlineShopping } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { FaUserTimes, FaUsers } from "react-icons/fa";
-import { MdPayment } from "react-icons/md";
+import { MdPayment, MdPayments, MdViewList } from "react-icons/md";
 import { FaCodePullRequest } from "react-icons/fa6";
-import { IoIosChatbubbles } from "react-icons/io";
+import { IoIosChatbubbles, IoMdAdd } from "react-icons/io";
+import { BsCartCheck, BsFillChatQuoteFill } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { IoChatbubbles } from "react-icons/io5";
+import { TbBasketDiscount } from "react-icons/tb";
 
 // Déclaration du tableau contenant tous les éléments de la barre de navigation
 export const allNav = [
@@ -123,7 +127,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Add Product",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <IoMdAdd />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -135,7 +139,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "All Product",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <MdViewList />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -147,7 +151,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Discount Product",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <TbBasketDiscount />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -159,7 +163,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Orders",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <BsCartCheck />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -171,7 +175,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Payments",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <MdPayments />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -183,7 +187,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Chat-Customer",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <IoChatbubbles />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -195,7 +199,7 @@ export const allNav = [
         // Titre de l'élément de navigation
         title: "Chat-Support",
         // Icône associée à l'élément de navigation, dans ce cas l'icône du tableau de bord
-        icon: <AiOutlineDashboard />,
+        icon: <BsFillChatQuoteFill />,
         // Rôle associé à l'élément de navigation, ici "seller"
         role: "seller",
         // Chemin de l'URL vers lequel l'utilisateur sera redirigé en cliquant sur cet élément
@@ -204,7 +208,7 @@ export const allNav = [
     {
         id: 17,
         title: "Profile",
-        icon: <AiOutlineDashboard />,
+        icon: <CgProfile />,
         role: "seller",
         path: "/seller/dashboard/profile",
     },
