@@ -53,6 +53,36 @@ class authControllers {
     };
     // End Method
 
+    seller_login = async (req, res) => {
+        const { email, password } = req.body;
+
+        try {
+            const seller = await sellerModel.findOne({ email }).select("+password");
+            console.log(seller);
+            if (seller) {
+                const match = await bcrypt.compare(password, seller.password);
+                // console.log(match)
+                if (match) {
+                    const token = await createToken({
+                        id: seller.id,
+                        role: seller.role,
+                    });
+                    res.cookie("accessToken", token, {
+                        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    });
+                    responseReturn(res, 200, { token, message: "Login Success" });
+                } else {
+                    responseReturn(res, 404, { error: "Password Wrong" });
+                }
+            } else {
+                responseReturn(res, 404, { error: "Email not Found" });
+            }
+        } catch (error) {
+            responseReturn(res, 500, { error: error.message });
+        }
+    };
+    // End Method
+
     // Définition de la méthode seller_register. cours 188.
     seller_register = async (req, res) => {
         const { email, name, password } = req.body;
@@ -89,35 +119,6 @@ class authControllers {
     };
     // End Method
 
-    seller_login = async (req, res) => {
-        const { email, password } = req.body;
-        try {
-            const seller = await sellerModel.findOne({ email }).select("+password");
-            // console.log(admin)
-            if (seller) {
-                const match = await bcrpty.compare(password, seller.password);
-                // console.log(match)
-                if (match) {
-                    const token = await createToken({
-                        id: seller.id,
-                        role: seller.role,
-                    });
-                    res.cookie("accessToken", token, {
-                        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-                    });
-                    responseReturn(res, 200, { token, message: "Login Success" });
-                } else {
-                    responseReturn(res, 404, { error: "Password Wrong" });
-                }
-            } else {
-                responseReturn(res, 404, { error: "Email not Found" });
-            }
-        } catch (error) {
-            responseReturn(res, 500, { error: error.message });
-        }
-    };
-    // End Method
-
     // Définition de la méthode getUser
     getUser = async (req, res) => {
         // Extraction des propriétés id et role de l'objet req
@@ -131,14 +132,14 @@ class authControllers {
                 // Envoi des informations de l'utilisateur en tant que réponse avec le code de statut 200
                 responseReturn(res, 200, { userInfo: user });
             } else {
-                // Si l'utilisateur n'est pas un administrateur, affichage d'un message dans la console
-                console.log("Seller Info");
+                const seller = await sellerModel.findById(id);
+                // Envoi des informations de l'utilisateur en tant que réponse avec le code de statut 200
+                responseReturn(res, 200, { userInfo: seller });
             }
         } catch (error) {
             // Gestion des erreurs : affichage du message d'erreur dans la console
-            console.log(error.message);
+            responseReturn(res, 500, { error: "Internal Server Error" });
             // Possibilité de renvoyer une réponse d'erreur à l'utilisateur, mais cette ligne est actuellement commentée
-            // responseReturn(res, 500, { error: error.message });
         }
     }; // Fin de la méthode getUser
 }
