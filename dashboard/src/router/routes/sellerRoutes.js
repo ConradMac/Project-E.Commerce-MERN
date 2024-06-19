@@ -1,5 +1,8 @@
 // Importation de la fonction lazy depuis React pour charger le composant de manière paresseuse
 import { lazy } from "react";
+const Deactive = lazy(() => import("../../views/Deactive"));
+
+const Pending = lazy(() => import("../../views/Pending"));
 
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
 
@@ -31,7 +34,20 @@ export const sellerRoutes = [
 
     //     ability: ["admin", "seller"],
     // },
+    {
+        path: "/seller/account-pending",
 
+        element: <Pending />,
+
+        ability: "seller",
+    },
+    {
+        path: "/seller/account-deactive",
+
+        element: <Deactive />,
+
+        ability: "seller",
+    },
     {
         path: "/seller/dashboard",
 
@@ -77,7 +93,7 @@ export const sellerRoutes = [
 
         element: <Orders />,
 
-        ability: ["active", "deactive"],
+        visibility: ["active", "deactive"],
         role: "seller",
     },
     {
@@ -85,7 +101,7 @@ export const sellerRoutes = [
 
         element: <OrderDetails />,
 
-        ability: ["active", "deactive"],
+        visibility: ["active", "deactive"],
         role: "seller",
     },
     {
@@ -99,7 +115,8 @@ export const sellerRoutes = [
     {
         path: "/seller/dashboard/chat-support",
         element: <SellerToAdmin />,
-        ability: ["active", "deactive", "pending"],
+        visibility: ["active", "deactive", "pending"],
+        role: "seller",
     },
     {
         path: "/seller/dashboard/chat-customer/:customerId",

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEdit, FaImages, FaTrash } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utilities/utils";
 
 function Category() {
     // on met 1 pour que la pagination commence à 1
@@ -18,6 +20,32 @@ function Category() {
     // const state = true;
     const [showDiv, setShowDiv] = useState(false);
 
+    const [state, setState] = useState({
+        name: "",
+        image: "",
+    });
+
+    //Variable detat pour les images a add
+    const [imageShow, setImage] = useState("");
+
+    const imageHandle = (event) => {
+        let files = event.target.files;
+        if (files.length > 0) {
+            setImage(URL.createObjectURL(files[0]));
+            setState({
+                ...state,
+                image: files[0],
+            });
+        }
+    };
+
+    const add_category = (event) => {
+        event.preventDefault();
+        console.log(state);
+        console.log("Add Category");
+    };
+
+    const loader = false;
     return (
         <div className="px-2 lg:px-7 pt-5">
             <div className="flex lg:hidden justify-between items-center mb-5 p-4 bg-[#6a5fdf] rounded-md">
@@ -55,16 +83,16 @@ function Category() {
                                     <tr>
                                         <th scope="col" className="py-3 px-4">
                                             N°
-                                        </th>{" "}
+                                        </th>
                                         <th scope="col" className="py-3 px-4">
                                             Images
-                                        </th>{" "}
+                                        </th>
                                         <th scope="col" className="py-3 px-4">
                                             Name
-                                        </th>{" "}
+                                        </th>
                                         <th scope="col" className="py-3 px-4">
                                             Action
-                                        </th>{" "}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -83,13 +111,11 @@ function Category() {
                                             <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                                                 Tshirt
                                             </td>
-
                                             <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                                                 <div className="flex justify-start items-center gap-4">
                                                     <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
                                                         <FaEdit />
                                                     </Link>
-
                                                     <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
                                                         <FaTrash />
                                                     </Link>
@@ -130,10 +156,12 @@ function Category() {
                                     <IoMdCloseCircle />
                                 </div>
                             </div>
-                            <form>
+                            <form onSubmit={add_category}>
                                 <div className="flex flex-col w-full gap-1 mb-3">
                                     <label htmlFor="name">Category Name</label>
                                     <input
+                                        value={state.name}
+                                        onChange={(event) => setState({ ...state, name: event.target.value })}
                                         className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 text-[#000000]"
                                         type="text"
                                         id="name"
@@ -146,15 +174,35 @@ function Category() {
                                         className="flex justify-center items-center flex-col h-[238px] cursor-pointer border border-dashed hover:border-red-500 w-full border-[#d0d2d6]"
                                         htmlFor="image"
                                     >
-                                        <span>
-                                            <FaImages />
-                                        </span>
-                                        <span>Select Image</span>
+                                        {imageShow ? (
+                                            <img className="w-full h-full" src={imageShow} alt="" />
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <span>
+                                                    <FaImages />
+                                                </span>
+                                                <span>Select Image</span>
+                                            </>
+                                        )}
                                     </label>
-                                    <input className="hidden" type="file" name="image" id="image" />
-                                    <div className="">
-                                        <button className="bg-red-500 w-full hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
-                                            Add Category
+                                    <input
+                                        onChange={imageHandle}
+                                        className="hidden"
+                                        type="file"
+                                        name="image"
+                                        id="image"
+                                    />
+                                    <div className="mt-4">
+                                        <button
+                                            disabled={loader} // Pas besoin de ternaire ici
+                                            className="bg-red-800 w-full hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px700 py-2 mb-3"
+                                        >
+                                            {loader ? (
+                                                <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+                                            ) : (
+                                                "Add Category"
+                                            )}
                                         </button>
                                     </div>
                                 </div>
