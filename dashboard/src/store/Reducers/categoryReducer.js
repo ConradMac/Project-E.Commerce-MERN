@@ -1,19 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
-import { jwtDecode } from "jwt-decode";
 
-export const admin_Login = createAsyncThunk("auth/admin_login", async (info, { rejectWithValue, fulfillWithValue }) => {
-    console.log(info);
-    try {
-        const { data } = await api.post("/admin-login", info, { withCredentials: true });
-        localStorage.setItem("accessToken", data.token);
-        // console.log(data)
-        return fulfillWithValue(data);
-    } catch (error) {
-        // console.log(error.response.data)
-        return rejectWithValue(error.response.data);
+export const categoryAdd = createAsyncThunk(
+    "category/categoryAdd",
+    async ({ name, image }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            // Création d'une instance FormData
+            const formData = new FormData();
+            // Ajout des champs à l'instance FormData
+            formData.append("name", name);
+            formData.append("image", image);
+
+            // Envoi de la requête POST avec les données FormData
+            const { data } = await api.post("/category-add", formData, { withCredentials: true });
+
+            console.log(data);
+            return fulfillWithValue(data);
+        } catch (error) {
+            // Gestion de l'erreur et renvoi de la valeur rejetée
+            return rejectWithValue(error.response.data);
+        }
     }
-});
+);
+// end Method
+
+export const get_category = createAsyncThunk(
+    "category/get_category",
+    async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(
+                `/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+                { withCredentials: true }
+            );
+            console.log(data);
+            console.log("get_category bla bla bla");
+            return fulfillWithValue(data);
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+// End Method
 
 export const categoryReducer = createSlice({
     name: "category",
@@ -23,6 +52,7 @@ export const categoryReducer = createSlice({
         loader: false,
         userInfo: "",
         categories: [],
+        totalCategory: 0,
     },
     reducers: {
         messageClear: (state, _) => {
@@ -30,20 +60,23 @@ export const categoryReducer = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder;
-        // .addCase(admin_Login.pending, (state, { payload }) => {
-        //     state.loader = true;
-        // })
-        // .addCase(admin_Login.rejected, (state, { payload }) => {
-        //     state.loader = false;
-        //     state.errorMessage = payload.error;
-        // })
-        // .addCase(admin_Login.fulfilled, (state, { payload }) => {
-        //     state.loader = false;
-        //     state.successMessage = payload.message;
-        //     state.token = payload.token;
-        //     state.role = returnRole(payload.token);
-        // });
+        builder
+            .addCase(categoryAdd.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(categoryAdd.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.error;
+            })
+            .addCase(categoryAdd.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.successMessage = payload.message;
+                state.categories = [...state.categories, payload.category];
+            })
+            .addCase(get_category.fulfilled, (state, { payload }) => {
+                state.totalCategory = payload.totalCategory;
+                state.categories = payload.categories;
+            });
     },
 });
 
