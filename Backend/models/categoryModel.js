@@ -19,4 +19,8 @@ const categorySchema = new Schema(
     { timestamps: true }
 );
 
+categorySchema.index({
+    name: "text",
+});
+
 module.exports = model("categories", categorySchema); // "admins" correspond au nom de votre collection MongoDB
