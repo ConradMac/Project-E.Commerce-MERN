@@ -72,7 +72,7 @@ function Category() {
     useEffect(() => {
         const obj = {
             parPage: parseInt(parPage),
-            page: parseInt,
+            page: parseInt(currentPage),
             searchValue,
         };
         dispatch(get_category(obj));
