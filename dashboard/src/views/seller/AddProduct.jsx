@@ -1,24 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { get_category } from "./../../store/Reducers/categoryReducer";
+import { add_product } from "./../../store/Reducers/productReducer";
 
 function AddProduct() {
-    const categorys = [
-        { id: 1, name: "Sports" },
-        { id: 2, name: "T-shirts" },
-        { id: 3, name: "Mobile" },
-        { id: 4, name: "Computer" },
-        { id: 5, name: "Watch" },
-        { id: 6, name: "Trouser" },
-    ];
+    const dispatch = useDispatch();
+    // Permet de récupérer les catégories dans notre state
+    const { categories } = useSelector((state) => state.category);
+
+    useEffect(() => {
+        dispatch(
+            // get_category provient du fichier categoryReducer
+            get_category({
+                searchValue: "",
+                parPage: "",
+                page: "",
+            })
+        );
+    }, []);
 
     const [categoryShow, setCategoryShow] = useState(false);
     const [category, setCategory] = useState("");
     // const [allCategory, setAllCategory] = useState([]);
-    const [allCategory, setAllCategory] = useState(categorys);
+    const [allCategory, setAllCategory] = useState([]);
     const [searchValue, setSearchValue] = useState("");
 
-    const aryane = "azertyuiopqsdfghjkMDFRxcvbn";
+    // const aryane = "azertyuiopqsdfghjkMDFRxcvbn";
     const categorySearch = (event) => {
         const value = event.target.value;
         // on doit passer notre valeur dans le setsearchValue
@@ -30,8 +39,15 @@ function AddProduct() {
             );
             setAllCategory(searchValue);
         } else {
-            setAllCategory(categorys);
+            setAllCategory(categories);
         }
+    };
+
+    const inputHandle = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value,
+        });
     };
 
     const [state, setState] = useState({
@@ -43,15 +59,9 @@ function AddProduct() {
         stock: "",
     });
 
-    const inputHandle = (event) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.value,
-        });
-    };
-
     const [images, setImages] = useState([]);
     const [imageShow, setImageShow] = useState([]);
+
     const imageHandleUpload = (e) => {
         const files = e.target.files;
         const length = files.length;
@@ -64,8 +74,6 @@ function AddProduct() {
             setImageShow([...imageShow, ...imageUrl]);
         }
     };
-    // console.log(image);
-    // console.log(imageShow);
 
     const changeImage = (img, index) => {
         // Vérifie si une image a été fournie
@@ -98,6 +106,30 @@ function AddProduct() {
         setImageShow(filterImageUrl);
     };
 
+    const add = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append("name", state.name);
+        formData.append("description", state.description);
+        formData.append("discount", state.discount);
+        formData.append("price", state.price);
+        formData.append("brand", state.brand);
+        formData.append("stock", state.stock);
+        formData.append("shopName", "SANTE NAT");
+        formData.append("name", state.name);
+        formData.append("category", category);
+
+        for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
+            formData.append("images", images[imageIndex]);
+        }
+        dispatch(add_product(formData));
+    };
+
+    useEffect(() => {
+        // categories provient de notre ligne avec le state en haut.
+        setAllCategory(categories);
+    }, [categories]);
+
     return (
         <div className="px-2 lg-px-7 pt-5">
             <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
@@ -111,7 +143,7 @@ function AddProduct() {
                     </Link>
                 </div>
                 <div>
-                    <form>
+                    <form onSubmit={add}>
                         <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
                             <div className="flex flex-col w-full gap-1">
                                 <label htmlFor="name">Product Name</label>
@@ -175,10 +207,11 @@ function AddProduct() {
                                                     }`}
                                                     onClick={() => {
                                                         setCategoryShow(false);
-                                                        setCategoryShow(category.name);
+                                                        setCategory(category.name);
                                                         setSearchValue("");
-                                                        setAllCategory(categorys);
+                                                        setAllCategory(categories);
                                                     }}
+                                                    key={index}
                                                 >
                                                     {category.name}
                                                 </span>
