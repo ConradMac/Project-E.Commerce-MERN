@@ -16,6 +16,7 @@ class categoryController {
             } else {
                 let { name } = fields;
                 let { image } = files;
+                //  si trim est utilisé pour supprimer les espaces blancs inutiles et split pour séparer les mots par un tiret et join pour les joindre avec un tiret
                 name = name.trim();
                 const slug = name.split(" ").join("-");
 
@@ -50,9 +51,13 @@ class categoryController {
 
     get_category = async (req, res) => {
         const { page, searchValue, parPage } = req.query;
-        const skipPage = parseInt(parPage) * (parseInt(page) - 1);
 
         try {
+            let skipPage = "";
+            if (parPage && page) {
+                skipPage = parseInt(parPage) * (parseInt(page) - 1);
+            }
+
             if (searchValue && page && parPage) {
                 const categories = await categoryModel
                     .find({

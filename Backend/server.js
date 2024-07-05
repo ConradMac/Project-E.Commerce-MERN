@@ -23,5 +23,9 @@ app.listen(PORT, () => console.log(`Le serveur fonctionne sur le port ${PORT}`))
 dbConnect();
 
 app.use("/api", require("./routes/authRoutes"));
+
 app.use("/api", require("./routes/dashboard/categoryRoutes"));
+
+app.use("/api", require("./routes/dashboard/productRoutes"));
+
 app.get("/", (req, res) => res.send("my Server (backend) is running"));
