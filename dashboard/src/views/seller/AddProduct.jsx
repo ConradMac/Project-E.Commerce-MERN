@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { get_category } from "./../../store/Reducers/categoryReducer";
-import { add_product } from "./../../store/Reducers/productReducer";
+import { add_product, messageClear } from "./../../store/Reducers/productReducer";
+import { overrideStyle } from "../../utilities/utils";
+import { toast } from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
 
 function AddProduct() {
     const dispatch = useDispatch();
     // Permet de récupérer les catégories dans notre state
     const { categories } = useSelector((state) => state.category);
+    const { loader, successMessage, errorMessage } = useSelector((state) => state.product);
 
     useEffect(() => {
         dispatch(
@@ -116,12 +120,13 @@ function AddProduct() {
         formData.append("brand", state.brand);
         formData.append("stock", state.stock);
         formData.append("shopName", "SANTE NAT");
-        formData.append("name", state.name);
+        // formData.append("name", state.name);
         formData.append("category", category);
 
         for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
             formData.append("images", images[imageIndex]);
         }
+        console.log(state);
         dispatch(add_product(formData));
     };
 
@@ -129,6 +134,28 @@ function AddProduct() {
         // categories provient de notre ligne avec le state en haut.
         setAllCategory(categories);
     }, [categories]);
+
+    useEffect(() => {
+        if (successMessage) {
+            toast.success(successMessage); // Affichage du message de succès avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
+            setState({
+                name: "",
+                description: "",
+                discount: "",
+                price: "",
+                brand: "",
+                stock: "",
+            });
+            setImageShow([]);
+            setImages([]);
+            setCategory("");
+        }
+        if (errorMessage) {
+            toast.error(errorMessage); // Affichage du message d'erreur avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message d'erreur
+        }
+    }, [errorMessage, successMessage]);
 
     return (
         <div className="px-2 lg-px-7 pt-5">
@@ -310,8 +337,11 @@ function AddProduct() {
                             <input className="hidden" onChange={imageHandleUpload} multiple type="file" id="image" />
                         </div>
                         <div className="flex">
-                            <button className="bg-red-500 hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
-                                Add Product
+                            <button
+                                disabled={loader} // Pas besoin de ternaire ici
+                                className="bg-red-500 w-[300px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px700 py-2 mb-3"
+                            >
+                                {loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle} /> : "Add Product"}
                             </button>
                         </div>
                     </form>
