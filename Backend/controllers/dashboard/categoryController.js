@@ -6,11 +6,11 @@ const { response } = require("express");
 
 class categoryController {
     add_category = async (req, res) => {
-        console.log("this is working");
+        // console.log("this is working");
         const form = formidable();
         form.parse(req, async (err, fields, files) => {
-            console.log(fields);
-            console.log(files);
+            // console.log(fields);
+            // console.log(files);
             if (err) {
                 responseReturn(res, 404, { error: "something went wrong" });
             } else {

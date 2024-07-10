@@ -13,16 +13,16 @@ const { createToken } = require("./../utiles/tokenCreate");
 class authControllers {
     admin_login = async (req, res) => {
         const { email, password } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         try {
             // Recherche de l'administrateur dans la base de données en fonction de l'e-mail fourni lors de la tentative de connexion
             const admin = await adminModel.findOne({ email }).select("+password");
-            console.log(admin);
+            // console.log(admin);
 
             if (admin) {
                 // Vérification du mot de passe
                 const match = await bcrypt.compare(password, admin.password);
-                console.log(match);
+                // console.log(match);
 
                 if (match) {
                     // Si les mots de passe correspondent, un token d'authentification est généré
@@ -58,7 +58,7 @@ class authControllers {
 
         try {
             const seller = await sellerModel.findOne({ email }).select("+password");
-            console.log(seller);
+            // console.log(seller);
             if (seller) {
                 const match = await bcrypt.compare(password, seller.password);
                 // console.log(match)
