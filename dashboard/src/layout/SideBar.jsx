@@ -21,7 +21,7 @@ function SideBar({ showSideBar, setShowSideBar }) {
     }, [role]); // Le tableau vide comme deuxième argument indique que cette opération ne doit être effectuée qu'une seule fois après le rendu initial du composant
 
     // Affichage de l'état allNav dans la console
-    console.log(allNav);
+    // console.log(allNav);
     return (
         <div>
             <div

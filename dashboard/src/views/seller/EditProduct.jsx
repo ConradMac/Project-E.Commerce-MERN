@@ -1,21 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { get_category } from "./../../store/Reducers/categoryReducer";
+import { get_product } from "./../../store/Reducers/productReducer";
 
 function EditProduct() {
-    const categorys = [
-        { id: 1, name: "Sports" },
-        { id: 2, name: "T-shirts" },
-        { id: 3, name: "Mobile" },
-        { id: 4, name: "Computer" },
-        { id: 5, name: "Watch" },
-        { id: 6, name: "Trouser" },
-    ];
+    // productId vient du fichier routes/sellerRoutes.js
+    const { productId } = useParams();
+    console.log(productId);
+
+    const dispatch = useDispatch();
+    // Permet de récupérer les catégories dans notre state
+    const { categories } = useSelector((state) => state.category);
+
+    const { product } = useSelector((state) => state.product);
+
+    useEffect(() => {
+        dispatch(
+            // get_category provient du fichier categoryReducer
+            get_category({
+                searchValue: "",
+                parPage: "",
+                page: "",
+            })
+        );
+    }, []);
+
+    useEffect(() => {
+        dispatch(
+            // get_category provient du fichier categoryReducer
+            get_product({ productId })
+        );
+    }, [productId]);
+
+    // const categorys = [
+    //     { id: 1, name: "Sports" },
+    //     { id: 2, name: "T-shirts" },
+    //     { id: 3, name: "Mobile" },
+    //     { id: 4, name: "Computer" },
+    //     { id: 5, name: "Watch" },
+    //     { id: 6, name: "Trouser" },
+    // ];
 
     const [categoryShow, setCategoryShow] = useState(false);
     const [category, setCategory] = useState("");
     // const [allCategory, setAllCategory] = useState([]);
-    const [allCategory, setAllCategory] = useState(categorys);
+    const [allCategory, setAllCategory] = useState(categories);
     const [searchValue, setSearchValue] = useState("");
 
     const aryane = "azertyuiopqsdfghjkMDFRxcvbn";
@@ -30,7 +61,7 @@ function EditProduct() {
             );
             setAllCategory(searchValue);
         } else {
-            setAllCategory(categorys);
+            setAllCategory(categories);
         }
     };
 
@@ -158,7 +189,7 @@ function EditProduct() {
                                                         setCategoryShow(false);
                                                         setCategoryShow(category.name);
                                                         setSearchValue("");
-                                                        setAllCategory(categorys);
+                                                        setAllCategory(categories);
                                                     }}
                                                 >
                                                     {category.name}

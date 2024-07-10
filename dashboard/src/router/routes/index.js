@@ -4,7 +4,7 @@ import { privateRoutes } from "./privateRoutes";
 
 export const getRoutes = () => {
     privateRoutes.map((routes) => {
-        console.log(routes);
+        // console.log(routes);
         routes.element = <ProtectedRoutes route={routes}>{routes.element}</ProtectedRoutes>;
     });
 

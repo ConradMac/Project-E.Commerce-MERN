@@ -15,16 +15,32 @@ export const add_product = createAsyncThunk(
 );
 // end Method
 
-export const get_product = createAsyncThunk(
-    "category/get_product",
+export const get_products = createAsyncThunk(
+    "product/get_products",
     async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.get(
-                `/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+                `/products-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
                 { withCredentials: true }
             );
-            // console.log(data);
-            // console.log("get_category bla bla bla");
+            console.log(data);
+            console.log("get_category bla bla bla");
+            return fulfillWithValue(data);
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+// End Method
+
+export const get_product = createAsyncThunk(
+    "product/get_product",
+    async (productId, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/product-get/${productId}`, { withCredentials: true });
+            console.log(data);
             return fulfillWithValue(data);
         } catch (error) {
             // console.log(error.response.data)
@@ -43,6 +59,7 @@ export const productReducer = createSlice({
         loader: false,
         userInfo: "",
         products: [],
+        product: "",
         totalProduct: 0,
     },
     reducers: {
@@ -62,11 +79,13 @@ export const productReducer = createSlice({
             .addCase(add_product.fulfilled, (state, { payload }) => {
                 state.loader = false;
                 state.successMessage = payload.message;
-                state.products = [...state.products, payload.category];
             })
-            .addCase(get_product.fulfilled, (state, { payload }) => {
+            .addCase(get_products.fulfilled, (state, { payload }) => {
                 state.totalProduct = payload.totalProduct;
                 state.products = payload.products;
+            })
+            .addCase(get_product.fulfilled, (state, { payload }) => {
+                state.product = payload.product;
             });
     },
 });

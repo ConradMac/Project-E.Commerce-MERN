@@ -12,14 +12,14 @@ function App() {
 
     // This state will be used to store all the routes de la page publicRoutes que l'on  a crée dans le dossier publicroutes
     const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
-    console.log(allRoutes);
+    // console.log(allRoutes);
 
     useEffect(() => {
         const routes = getRoutes();
 
         // On ajoute les routes de la page adminRoutes que l'on a crée dans le dossier adminRoutes
         setAllRoutes([...allRoutes, routes]);
-        console.log(routes);
+        // console.log(routes);
     }, []);
 
     useEffect(() => {
