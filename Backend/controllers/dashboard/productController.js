@@ -1,7 +1,7 @@
 const formidable = require("formidable");
 const { responseReturn } = require("./../../utiles/response");
 const cloudinary = require("cloudinary").v2;
-const productModel = require("../../models/productModels");
+const productModel = require("./../../models/productModels");
 
 class productController {
     add_product = async (req, res) => {
@@ -58,8 +58,10 @@ class productController {
                     brand: brand.trim(),
                     images: allImageUrl,
                 });
+
                 responseReturn(res, 201, { message: "Product Added Successfully" });
             } catch (error) {
+                console.error("Error adding product:", error);
                 responseReturn(res, 500, { error: "Internal Server Error" });
             }
         });
@@ -69,7 +71,10 @@ class productController {
 
     products_get = async (req, res) => {
         const { page, searchValue, parPage } = req.query;
+        console.log(req.query);
+
         const { id } = req;
+        console.log(req.id);
 
         const skipPage = parseInt(parPage) * (parseInt(page) - 1);
 
@@ -107,9 +112,12 @@ class productController {
 
     product_get = async (req, res) => {
         const { productId } = req.params;
+        console.log(productId);
         try {
             const product = await productModel.findById(productId);
+            console.log(product);
             responseReturn(res, 200, { product });
+            console.log(product);
         } catch (error) {
             console.log(error.message);
         }
