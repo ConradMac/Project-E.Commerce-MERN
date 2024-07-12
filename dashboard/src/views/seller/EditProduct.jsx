@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { get_category } from "./../../store/Reducers/categoryReducer";
 import { get_product } from "./../../store/Reducers/productReducer";
@@ -8,13 +7,15 @@ import { get_product } from "./../../store/Reducers/productReducer";
 function EditProduct() {
     // productId vient du fichier routes/sellerRoutes.js
     const { productId } = useParams();
-    console.log(productId);
 
     const dispatch = useDispatch();
+
     // Permet de récupérer les catégories dans notre state
     const { categories } = useSelector((state) => state.category);
 
+    // on peut acceder à product car on l'a déclaré dans le fichier productReducer (product)
     const { product } = useSelector((state) => state.product);
+    // const { product, loading, error } = useSelector((state) => state.product);
 
     useEffect(() => {
         dispatch(
@@ -27,21 +28,16 @@ function EditProduct() {
         );
     }, []);
 
-    useEffect(() => {
-        dispatch(
-            // get_category provient du fichier categoryReducer
-            get_product({ productId })
-        );
-    }, [productId]);
+    // useEffect(() => {
+    //     dispatch(
+    //         // get_category provient du fichier categoryReducer
+    //         get_product({ productId })
+    //     );
+    // }, [productId]);
 
-    // const categorys = [
-    //     { id: 1, name: "Sports" },
-    //     { id: 2, name: "T-shirts" },
-    //     { id: 3, name: "Mobile" },
-    //     { id: 4, name: "Computer" },
-    //     { id: 5, name: "Watch" },
-    //     { id: 6, name: "Trouser" },
-    // ];
+    useEffect(() => {
+        dispatch(get_product(productId));
+    }, [productId]);
 
     const [categoryShow, setCategoryShow] = useState(false);
     const [category, setCategory] = useState("");
@@ -49,7 +45,7 @@ function EditProduct() {
     const [allCategory, setAllCategory] = useState(categories);
     const [searchValue, setSearchValue] = useState("");
 
-    const aryane = "azertyuiopqsdfghjkMDFRxcvbn";
+    // const aryane = "azertyuiopqsdfghjkMDFRxcvbn";
     const categorySearch = (event) => {
         const value = event.target.value;
         // on doit passer notre valeur dans le setsearchValue
@@ -93,22 +89,16 @@ function EditProduct() {
 
     useEffect(() => {
         setState({
-            name: "T-shirt",
-            description: "blabla",
-            discount: 5,
-            price: 200,
-            brand: "Nike",
-            stock: 100,
+            name: product.name,
+            description: product.description,
+            discount: product.discount,
+            price: product.price,
+            brand: product.brand,
+            stock: product.stock,
         });
-        setCategory("T-shirts");
-        setImageShow([
-            "http://localhost:3000/images/admin.jpg",
-            "http://localhost:3000/images/admin.jpg",
-            "http://localhost:3000/images/conradSeller.jpg",
-            "http://localhost:3000/images/admin.jpg",
-            "http://localhost:3000/images/admin.jpg",
-        ]);
-    }, []);
+        setCategory(product.category);
+        setImageShow(product.images);
+    }, [product]);
 
     return (
         <div className="px-2 lg:px-7 pt-5">

@@ -23,6 +23,7 @@ function Products() {
         };
         dispatch(get_products(obj));
     }, [searchValue, currentPage, parPage]);
+
     return (
         <div className="px-2 lg:px-7 pt-5">
             <h1 className="text-[#000000] font-semibold text-lg mb-3">All Products</h1>
@@ -102,7 +103,8 @@ function Products() {
                                                 to={`/seller/dashboard/edit-product/${product._id}`}
                                                 className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
                                             >
-                                                <FaEdit />
+                                                {" "}
+                                                <FaEdit />{" "}
                                             </Link>
 
                                             <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">

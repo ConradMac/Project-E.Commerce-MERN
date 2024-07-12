@@ -25,6 +25,22 @@ function AddProduct() {
         );
     }, []);
 
+    const [state, setState] = useState({
+        name: "",
+        description: "",
+        discount: "",
+        price: "",
+        brand: "",
+        stock: "",
+    });
+
+    const inputHandle = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value,
+        });
+    };
+
     const [categoryShow, setCategoryShow] = useState(false);
     const [category, setCategory] = useState("");
     // const [allCategory, setAllCategory] = useState([]);
@@ -47,22 +63,6 @@ function AddProduct() {
         }
     };
 
-    const inputHandle = (event) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.value,
-        });
-    };
-
-    const [state, setState] = useState({
-        name: "",
-        description: "",
-        discount: "",
-        price: "",
-        brand: "",
-        stock: "",
-    });
-
     const [images, setImages] = useState([]);
     const [imageShow, setImageShow] = useState([]);
 
@@ -78,6 +78,31 @@ function AddProduct() {
             setImageShow([...imageShow, ...imageUrl]);
         }
     };
+
+    console.log(images);
+    console.log(imageShow);
+
+    useEffect(() => {
+        if (successMessage) {
+            toast.success(successMessage); // Affichage du message de succès avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
+            setState({
+                name: "",
+                description: "",
+                discount: "",
+                price: "",
+                brand: "",
+                stock: "",
+            });
+            setImageShow([]);
+            setImages([]);
+            setCategory("");
+        }
+        if (errorMessage) {
+            toast.error(errorMessage); // Affichage du message d'erreur avec toast
+            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message d'erreur
+        }
+    }, [errorMessage, successMessage]);
 
     const changeImage = (img, index) => {
         // Vérifie si une image a été fournie
@@ -134,28 +159,6 @@ function AddProduct() {
         // categories provient de notre ligne avec le state en haut.
         setAllCategory(categories);
     }, [categories]);
-
-    useEffect(() => {
-        if (successMessage) {
-            toast.success(successMessage); // Affichage du message de succès avec toast
-            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message de succès
-            setState({
-                name: "",
-                description: "",
-                discount: "",
-                price: "",
-                brand: "",
-                stock: "",
-            });
-            setImageShow([]);
-            setImages([]);
-            setCategory("");
-        }
-        if (errorMessage) {
-            toast.error(errorMessage); // Affichage du message d'erreur avec toast
-            dispatch(messageClear()); // Appel à l'action messageClear pour effacer le message d'erreur
-        }
-    }, [errorMessage, successMessage]);
 
     return (
         <div className="px-2 lg-px-7 pt-5">

@@ -24,7 +24,7 @@ export const get_products = createAsyncThunk(
                 { withCredentials: true }
             );
             console.log(data);
-            console.log("get_category bla bla bla");
+            console.log("get_products");
             return fulfillWithValue(data);
         } catch (error) {
             // console.log(error.response.data)
@@ -35,15 +35,29 @@ export const get_products = createAsyncThunk(
 
 // End Method
 
+// export const get_product = createAsyncThunk(
+//     "product/get_product",
+//     async (productId, { rejectWithValue, fulfillWithValue }) => {
+//         try {
+//             const { data } = await api.get(`/product-get/${productId}`, { withCredentials: true });
+//             console.log(data);
+//             return fulfillWithValue(data);
+//         } catch (error) {
+//             console.log(error.response.data);
+//             return rejectWithValue(error.response.data);
+//         }
+//     }
+// );
+
 export const get_product = createAsyncThunk(
     "product/get_product",
     async (productId, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.get(`/product-get/${productId}`, { withCredentials: true });
-            console.log(data);
+            // return data;
             return fulfillWithValue(data);
         } catch (error) {
-            // console.log(error.response.data)
+            console.log(error.response.data);
             return rejectWithValue(error.response.data);
         }
     }
